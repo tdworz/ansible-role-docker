@@ -1,0 +1,31 @@
+---
+
+- name: Install python3-apt and gpg
+  ansible.builtin.apt:
+    name:
+      - python3-apt
+      - gpg
+  become: true
+
+- name: Add Docker GPG key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    keyring: /etc/apt/trusted.gpg.d/docker.gpg
+  become: true
+
+- name: Add Docker repository
+  ansible.builtin.apt_repository:
+    repo: deb [signed-by=/etc/apt/trusted.gpg.d/docker.gpg] https://download.docker.com/linux/debian {{ ansible_facts['distribution_release'] }} stable
+    filename: docker-ce-stable
+  become: true
+
+- name: Install Docker packages
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    update_cache: true
+  become: true

@@ -1,0 +1,54 @@
+---
+
+- name: If on a RHEL-based system
+  import_tasks: install-rhel-based.yml
+  when: ansible_facts['distribution'] == 'CentOS' or
+        ansible_facts['distribution'] == 'AlmaLinux' or
+        ansible_facts['distribution'] == 'Rocky' or
+        ansible_facts['distribution'] == 'OracleLinux'
+
+- name: If on a Fedora system
+  import_tasks: install-fedora.yml
+  when: ansible_facts['distribution'] == 'Fedora'
+
+- name: If on a Debian system
+  import_tasks: install-debian.yml
+  when: ansible_facts['distribution'] == 'Debian'
+
+- name: If on an Ubuntu system
+  import_tasks: install-ubuntu.yml
+  when: ansible_facts['distribution'] == 'Ubuntu'
+
+- name: Add scm user to docker group
+  ansible.builtin.user:
+    name: scm
+    groups: docker
+    append: true
+  become: true
+
+- name: Create Docker configuration directory
+  ansible.builtin.file:
+    path: /etc/docker
+    state: directory
+  become: true
+
+- name: Add Docker daemon configuration
+  ansible.builtin.copy:
+    src: files/daemon.json
+    dest: /etc/docker/daemon.json
+  become: true
+  when: ansible_facts['selinux']['status'] == 'enabled'
+
+- name: Start and enable docker.service
+  ansible.builtin.systemd:
+    name: docker.service
+    enabled: true
+    state: started
+  become: true
+
+- name: Start and enable containerd.service
+  ansible.builtin.systemd:
+    name: containerd.service
+    enabled: true
+    state: started
+  become: true

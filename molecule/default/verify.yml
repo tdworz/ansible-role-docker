@@ -1,0 +1,61 @@
+---
+
+- name: Verify
+  hosts:
+    - almalinux8
+    - rockylinux8
+    - oraclelinux8
+    - centosstream8
+    - almalinux9
+    - rockylinux9
+    - oraclelinux9
+    - centosstream9
+    - fedora36
+    - fedora37
+    - fedora38
+    - debian10
+    - debian11
+    - debian12
+    - ubuntu2004
+    - ubuntu2204
+  tasks:
+
+    - name: Ensure python3-apt is installed on Apt systems for ansible.builtin.package_facts
+      ansible.builtin.apt:
+        name: python3-apt
+      become: true
+      when: ansible_facts['pkg_mgr'] == 'apt'
+
+    - name: Gather facts about installed packages
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: Assert docker-ce is installed
+      ansible.builtin.assert:
+        that: "'docker-ce' in ansible_facts['packages']"
+        success_msg: docker-ce is installed.
+        fail_msg: docker-ce is not installed.
+
+    - name: Assert docker-ce-cli is installed
+      ansible.builtin.assert:
+        that: "'docker-ce-cli' in ansible_facts['packages']"
+        success_msg: docker-ce-cli is installed.
+        fail_msg: docker-ce-cli is not installed.
+
+    - name: Assert containerd.io is installed
+      ansible.builtin.assert:
+        that: "'containerd.io' in ansible_facts['packages']"
+        success_msg: containerd.io is installed.
+        fail_msg: containerd.io is not installed.
+
+    - name: Assert docker-buildx-plugin is installed
+      ansible.builtin.assert:
+        that: "'docker-buildx-plugin' in ansible_facts['packages']"
+        success_msg: docker-buildx-plugin is installed.
+        fail_msg: docker-buildx-plugin is not installed.
+
+    - name: Assert docker-compose-plugin is installed
+      ansible.builtin.assert:
+        that: "'docker-compose-plugin' in ansible_facts['packages']"
+        success_msg: docker-compose-plugin is installed.
+        fail_msg: docker-compose-plugin is not installed.
