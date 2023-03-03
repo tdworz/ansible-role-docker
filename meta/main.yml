@@ -1,0 +1,32 @@
+galaxy_info:
+  namespace: tdworz
+  role_name: docker
+  description: An Ansible role to install and configure Docker.
+  author: Tom Dworzanski (tdworz)
+  license: GPL-3.0-or-later
+  issue_tracker_url: https://github.com/tdworz/ansible-role-docker/issues
+  platforms:
+    - name: EL
+      versions:
+        - 8
+        - 9
+    - name: Fedora
+      versions:
+        - 36
+        - 37
+        - 38
+    - name: Debian
+      versions:
+        - buster
+        - bullseye
+        - bookworm
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+  galaxy_tags:
+    - docker
+    - dockercompose
+    - containers
+
+dependencies: []
