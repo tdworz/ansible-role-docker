@@ -63,3 +63,23 @@
         that: "'docker' in users_groups.stdout"
         success_msg: Current user is in the docker group.
         fail_msg: Current user is not in the docker group.
+
+    - name: Gather facts about services
+      ansible.builtin.service_facts:
+    - name: Assert docker.service is enabled and running
+      ansible.builtin.assert:
+        that:
+          - "'docker.service' in ansible_facts['services']"
+          - ansible_facts['services']['docker.service']['state'] == 'running'
+          - ansible_facts['services']['docker.service']['status'] == 'enabled'
+        success_msg: docker.service is enabled and running.
+        fail_msg: docker.service is not enabled and running.
+
+    - name: Assert containerd.service is enabled and running
+      ansible.builtin.assert:
+        that:
+          - "'containerd.service' in ansible_facts['services']"
+          - ansible_facts['services']['containerd.service']['state'] == 'running'
+          - ansible_facts['services']['containerd.service']['status'] == 'enabled'
+        success_msg: containerd.service is enabled and running.
+        fail_msg: containerd.service is not enabled and running.
