@@ -1,21 +1,21 @@
 ---
 
-- name: If on a RHEL-based system
+- name: Install Docker on RHEL-based systems
   import_tasks: install-rhel-based.yml
   when: ansible_facts['distribution'] == 'CentOS' or
         ansible_facts['distribution'] == 'AlmaLinux' or
         ansible_facts['distribution'] == 'Rocky' or
         ansible_facts['distribution'] == 'OracleLinux'
 
-- name: If on a Fedora system
+- name: Install Docker on Fedora systems
   import_tasks: install-fedora.yml
   when: ansible_facts['distribution'] == 'Fedora'
 
-- name: If on a Debian system
+- name: Install Docker on Debian systems
   import_tasks: install-debian.yml
   when: ansible_facts['distribution'] == 'Debian'
 
-- name: If on an Ubuntu system
+- name: Install Docker on Ubuntu systems
   import_tasks: install-ubuntu.yml
   when: ansible_facts['distribution'] == 'Ubuntu'
 
@@ -32,7 +32,7 @@
     state: directory
   become: true
 
-- name: Add Docker daemon configuration
+- name: Add Docker daemon configuration on SELinux systems
   ansible.builtin.copy:
     src: files/daemon.json
     dest: /etc/docker/daemon.json

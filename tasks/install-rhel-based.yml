@@ -1,6 +1,6 @@
 ---
 
-- name: Add Docker repository
+- name: Add official Docker repository on RHEL-based systems
   ansible.builtin.yum_repository:
     name: docker-ce-stable
     description: Docker CE Stable - $basearch

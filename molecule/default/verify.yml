@@ -1,6 +1,6 @@
 ---
 
-- name: Verify
+- name: Verify Docker is installed and running
   hosts:
     - almalinux8
     - almalinux9
@@ -18,7 +18,7 @@
       become: true
       when: ansible_facts['pkg_mgr'] == 'apt'
 
-    - name: Gather facts about installed packages
+    - name: Gather facts about packages
       ansible.builtin.package_facts:
         manager: auto
 

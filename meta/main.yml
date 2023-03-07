@@ -1,7 +1,7 @@
 galaxy_info:
   namespace: tdworz
   role_name: docker
-  description: An Ansible role to install and configure Docker.
+  description: An Ansible role to install Docker from the official Docker repositories
   author: Tom Dworzanski (tdworz)
   license: GPL-3.0-or-later
   issue_tracker_url: https://github.com/tdworz/ansible-role-docker/issues
