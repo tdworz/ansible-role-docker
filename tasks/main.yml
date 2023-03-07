@@ -19,9 +19,9 @@
   import_tasks: install-ubuntu.yml
   when: ansible_facts['distribution'] == 'Ubuntu'
 
-- name: Add scm user to docker group
+- name: Add current user to docker group
   ansible.builtin.user:
-    name: scm
+    name: '{{ ansible_user_id }}'
     groups: docker
     append: true
   become: true

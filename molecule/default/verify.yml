@@ -51,3 +51,15 @@
         that: "'docker-compose-plugin' in ansible_facts['packages']"
         success_msg: docker-compose-plugin is installed.
         fail_msg: docker-compose-plugin is not installed.
+
+    - name: Get all the current user's groups
+      ansible.builtin.shell:
+        cmd: id -nG
+      register: users_groups
+      changed_when: false
+
+    - name: Assert current user is in the docker group
+      ansible.builtin.assert:
+        that: "'docker' in users_groups.stdout"
+        success_msg: Current user is in the docker group.
+        fail_msg: Current user is not in the docker group.
